@@ -27,10 +27,13 @@ def where(args: argparse.Namespace) -> tuple[str, str]:
     if args.file is None:
         return None, "No file or incorrect file path"
     spisoc = []
-    with open(args.file, "r", newline="") as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            spisoc.append(row)
+    try:
+        with open(args.file, "r", newline="") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                spisoc.append(row)
+    except FileNotFoundError:
+        return None, "No file or incorrect file path"
     if not spisoc:
         return None, "No data"
     column = [o for o in spisoc[0]]
